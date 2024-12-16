@@ -7,7 +7,7 @@ import Logo from "@/components/icons/logo";
 
 async function Navbar() {
   const menu = await getMenu("next-js-frontend-menu");
-  console.log(menu);
+
   return (
     <nav className="flex items-center justify-between p-4 lg:px-6">
       <div className="block flex-none md:hidden">
