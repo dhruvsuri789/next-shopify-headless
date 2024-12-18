@@ -8,7 +8,7 @@ async function SearchPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort, q: searchValue } = searchParams as {
+  const { sort, q: searchValue } = (await searchParams) as {
     [key: string]: string;
   };
   const { sortKey, reverse } =

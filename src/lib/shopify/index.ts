@@ -35,6 +35,10 @@ import {
 } from "./types";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
+import {
+  getCollectionProductsQuery,
+  getCollectionsQuery,
+} from "./queries/collection";
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartWith(process.env.SHOPIFY_STORE_DOMAIN, "https://")
@@ -223,7 +227,7 @@ function reshapeCollections(collections: ShopifyCollection[]) {
   return reshapedCollections;
 }
 
-/* export async function getCollections(): Promise<Collection[]> {
+export async function getCollections(): Promise<Collection[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
     tags: [TAGS.collections],
@@ -279,6 +283,8 @@ export async function getCollectionProducts({
     removeEdgesAndNodes(res.body.data.collection.products)
   );
 }
+
+/* 
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
   const res = await shopifyFetch<ShopifyProductOperation>({
