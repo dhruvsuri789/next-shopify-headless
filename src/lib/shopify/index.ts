@@ -7,7 +7,11 @@ import {
 import { isShopifyError } from "../type-guards";
 import { ensureStartWith } from "../utils";
 import { getMenuQuery } from "./queries/menu";
-import { getProductsQuery } from "./queries/product";
+import {
+  getProductQuery,
+  getProductRecommendationsQuery,
+  getProductsQuery,
+} from "./queries/product";
 import {
   Cart,
   Collection,
@@ -39,6 +43,14 @@ import {
   getCollectionProductsQuery,
   getCollectionsQuery,
 } from "./queries/collection";
+import { getPageQuery, getPagesQuery } from "./queries/page";
+import {
+  addToCartMutation,
+  createCartMutation,
+  editCartItemsMutation,
+  removeFromCartMutation,
+} from "./mutations/cart";
+import { getCartQuery } from "./queries/cart";
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartWith(process.env.SHOPIFY_STORE_DOMAIN, "https://")
@@ -59,7 +71,7 @@ export async function shopifyFetch<T>({
   variables,
 }: {
   cache?: RequestCache;
-  header?: HeadersInit;
+  headers?: HeadersInit;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
@@ -284,8 +296,6 @@ export async function getCollectionProducts({
   );
 }
 
-/* 
-
 export async function getProduct(handle: string): Promise<Product | undefined> {
   const res = await shopifyFetch<ShopifyProductOperation>({
     query: getProductQuery,
@@ -416,7 +426,8 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
     "products/delete",
     "products/update",
   ];
-  const topic = headers().get("x-shopify-topic") || "unknown";
+  const header = await headers();
+  const topic = header.get("x-shopify-topic") || "unknown";
   const secret = req.nextUrl.searchParams.get("secret");
   const isCollectionUpdate = collectionWebhooks.includes(topic);
   const isProductUpdate = productWebhooks.includes(topic);
@@ -459,4 +470,4 @@ export async function getPages(): Promise<Page[]> {
   });
 
   return removeEdgesAndNodes(res.body.data.pages);
-} */
+}
