@@ -79,13 +79,13 @@ export default async function ProductPage({
             </Suspense>
           </div>
         </div>
-        <RelatedPRoducts id={product.id} />
+        <RelatedProducts id={product.id} />
       </div>
     </ProductProvider>
   );
 }
 
-async function RelatedPRoducts({ id }: { id: string }) {
+async function RelatedProducts({ id }: { id: string }) {
   const relatedProducts = await getProductRecommendations(id);
 
   if (!relatedProducts) return null;

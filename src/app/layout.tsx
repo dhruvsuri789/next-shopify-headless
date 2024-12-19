@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import { CartProvider } from "@/components/cart/cart-context";
+import { cookies } from "next/headers";
+import { getCart } from "@/lib/shopify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,17 +14,23 @@ export const metadata: Metadata = {
   description: "Welcome to Next Shop",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookie = await cookies();
+  const cartId = cookie.get("cartId")?.value;
+  const cart = getCart(cartId);
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <CartProvider cartPromise={cart}>
+          <Navbar />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
