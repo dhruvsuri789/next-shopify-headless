@@ -1,21 +1,21 @@
 "use client";
 
+import { DEFAULT_OPTION } from "@/lib/constants";
+import { createURL } from "@/lib/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { useCart } from "./cart-context";
-import { createUrl } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import Price from "../price";
-import OpenCart from "./open-cart";
-import CloseCart from "./close-cart";
-import { DEFAULT_OPTION } from "@/lib/constants";
-import { DeleteItemButton } from "./delete-item-button";
-import { EditItemQuantityButton } from "./edit-item-quantity-button";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import LoadingDots from "../loading-dots";
+import Price from "../price";
 import { createCartAndSetCookie, redirectToCheckout } from "./actions";
+import { useCart } from "./cart-context";
+import CloseCart from "./close-cart";
+import { DeleteItemButton } from "./delete-item-button";
+import { EditItemQuantityButton } from "./edit-item-quantity-button";
+import OpenCart from "./open-cart";
 
 type MerchandiseSearchParams = {
   [key: string]: string;
@@ -112,7 +112,7 @@ export default function CartModal() {
                             }
                           }
                         );
-                        const merchandiseUrl = createUrl(
+                        const merchandiseUrl = createURL(
                           `/product/${item.merchandise.product.handle}`,
                           new URLSearchParams(merchandiseSearchParams)
                         );

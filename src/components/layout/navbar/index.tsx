@@ -4,6 +4,7 @@ import Link from "next/link";
 import MobileMenu from "./mobile-menu";
 import Search from "./search";
 import Logo from "@/components/icons/logo";
+import CartModal from "@/components/cart/modal";
 
 async function Navbar() {
   const menu = await getMenu("next-js-frontend-menu");
@@ -45,7 +46,9 @@ async function Navbar() {
         <div className="hidden justify-center md:flex md:w-1/3">
           <Search />
         </div>
-        <div className="flex justify-end md:w-1/3">{/* <CartModal /> */}</div>
+        <div className="flex justify-end md:w-1/3">
+          <CartModal />
+        </div>
       </div>
     </nav>
   );
