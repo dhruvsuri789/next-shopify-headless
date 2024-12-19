@@ -185,7 +185,8 @@ export async function getMenu(handle: string): Promise<Menu[]> {
         .replace(domain, "")
         .replace("/collections", "/search")
         .replace("/page", "")
-        .replace("s/", "/"),
+        .replace("s/", "/")
+        .replace("/all", ""),
     })) || []
   );
 }
