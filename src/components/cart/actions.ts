@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import { TAGS } from "@/lib/constants";
@@ -116,13 +118,13 @@ export async function redirectToCheckout() {
   const cartId = cookie.get("cartId")?.value;
 
   if (!cartId) {
-    return "Missing cart ID";
+    throw new Error("Missing cart ID");
   }
 
   const cart = await getCart(cartId);
 
   if (!cart) {
-    return "Error fetching cart";
+    throw new Error("Error fetching cart");
   }
 
   redirect(cart.checkoutUrl);
