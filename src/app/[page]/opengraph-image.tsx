@@ -3,9 +3,13 @@ import { getPage } from "@/lib/shopify";
 
 export const runtime = "edge";
 
-export default async function Image({ params }: { params: { page: string } }) {
-  const page = await getPage(params.page);
-  const title = page.seo?.title || page.title;
+type Params = Promise<{ page: string }>;
+
+export default async function Image({ params }: { params: Params }) {
+  const { page } = await params;
+  const pageOne = await getPage(page);
+
+  const title = pageOne.seo?.title || pageOne.title;
 
   return await OpengraphImage({ title });
 }

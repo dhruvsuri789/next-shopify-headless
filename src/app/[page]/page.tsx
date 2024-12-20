@@ -3,35 +3,39 @@ import { getPage } from "@/lib/shopify";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+type Params = Promise<{ page: string }>;
+
 export async function generateMetadata({
   params,
 }: {
-  params: { page: string };
+  params: Params;
 }): Promise<Metadata> {
-  const page = await getPage(params.page);
+  const { page } = await params;
+  const pageOne = await getPage(page);
 
   if (!page) return notFound();
 
   return {
-    title: page.seo?.title || page.title,
-    description: page.seo?.description || page.bodySummary,
+    title: pageOne.seo?.title || pageOne.title,
+    description: pageOne.seo?.description || pageOne.bodySummary,
     openGraph: {
-      publishedTime: page.createdAt,
-      modifiedTime: page.updatedAt,
+      publishedTime: pageOne.createdAt,
+      modifiedTime: pageOne.updatedAt,
       type: "article",
     },
   };
 }
 
-export default async function Page({ params }: { params: { page: string } }) {
-  const page = await getPage(params.page);
+export default async function Page({ params }: { params: Params }) {
+  const { page } = await params;
+  const pageOne = await getPage(page);
 
-  if (!page) return notFound();
+  if (!pageOne) return notFound();
 
   return (
     <>
-      <h1 className="mb-8 text-5xl font-bold">{page.title}</h1>
-      <Prose className="mb-8" html={page.body as string} />
+      <h1 className="mb-8 text-5xl font-bold">{pageOne.title}</h1>
+      <Prose className="mb-8" html={pageOne.body as string} />
       <p className="text-sm italic">
         {`This document was last updated on ${new Intl.DateTimeFormat(
           undefined,
@@ -40,7 +44,7 @@ export default async function Page({ params }: { params: { page: string } }) {
             month: "long",
             day: "numeric",
           }
-        ).format(new Date(page.updatedAt))}.`}
+        ).format(new Date(pageOne.updatedAt))}.`}
       </p>
     </>
   );

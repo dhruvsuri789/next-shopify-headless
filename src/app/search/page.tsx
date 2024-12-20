@@ -3,11 +3,9 @@ import ProductGridItems from "@/components/layout/product-grid-items";
 import { defaultSort, sorting } from "@/lib/constants";
 import { getProducts } from "@/lib/shopify";
 
-async function SearchPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+async function SearchPage({ searchParams }: { searchParams?: SearchParams }) {
   const { sort, q: searchValue } = (await searchParams) as {
     [key: string]: string;
   };

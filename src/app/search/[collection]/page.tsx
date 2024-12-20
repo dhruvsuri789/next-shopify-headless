@@ -3,12 +3,15 @@ import ProductGridItems from "@/components/layout/product-grid-items";
 import { defaultSort, sorting } from "@/lib/constants";
 import { getCollectionProducts } from "@/lib/shopify";
 
+type Params = Promise<{ collection: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
 export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: { collection: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: Params;
+  searchParams?: SearchParams;
 }) {
   const { sort } = (await searchParams) as { [key: string]: string };
   const { sortKey, reverse } =
