@@ -5,6 +5,11 @@ import { getProducts } from "@/lib/shopify";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
+export const metadata = {
+  title: "Search",
+  description: "Search for products in the store.",
+};
+
 async function SearchPage({ searchParams }: { searchParams?: SearchParams }) {
   const { sort, q: searchValue } = (await searchParams) as {
     [key: string]: string;
